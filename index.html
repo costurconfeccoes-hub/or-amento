@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamento - Costur Confecções</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid var(--secondary);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 2px;
+            color: white;
+        }
+
+        .logo-text p {
+            font-style: italic;
+            opacity: 0.9;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .header-contact {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #FFF;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            color: #FFF;
+            font-size: 0.8rem;
+        }
+
+        .contact-item span {
+            color: #FFF;
+            font-weight: 500;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Formulário de Orçamento */
+        .budget-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .form-control:disabled {
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .result-box {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .result-box h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .btn-download {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-download:hover {
+            background-color: #219653;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column p, .footer-column a {
+            margin-bottom: 10px;
+            display: block;
+            color: #ddd;
+            text-decoration: none;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .header-contact {
+                align-items: center;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .budget-form-container {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo-text h1 {
+                font-size: 1.3rem;
+            }
+
+            .logo-text p {
+                font-size: 0.8rem;
+            }
+
+            .contact-item {
+                font-size: 0.8rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Estilo para o recibo */
+        .receipt {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            margin: 0 auto;
+            font-family: 'Courier New', monospace;
+            display: none;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #333;
+            padding-bottom: 15px;
+        }
+
+        .receipt-header h2 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .receipt-details {
+            margin-bottom: 20px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .receipt-total {
+            border-top: 2px solid #333;
+            padding-top: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="https://i.pinimg.com/1200x/40/a8/e9/40a8e9533769e963fd52ccc646efc7c6.jpg" alt="Costur Confecções" id="logo-image">
+                </div>
+                <div class="logo-text">
+                    <h1>Costur Confecções</h1>
+                    <p>Sua marca, nossa costura.</p>
+                </div>
+            </div>
+            <div class="header-contact">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>(81) 9.2140-5569 / (81) 9.9201-4171</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Rua professor ferrucio, 436, São Francisco - Caruaru/PE</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Solicite seu Orçamento</h2>
+            <p>Preencha os dados abaixo para calcular o valor do seu serviço de costura</p>
+        </div>
+    </section>
+
+    <!-- Orçamento Section -->
+    <section id="budget" class="budget">
+        <div class="container">
+            <div class="section-title">
+                <h2>Orçamento</h2>
+            </div>
+            <div class="budget-form-container">
+                <form id="budgetForm">
+                    <div class="form-group">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" id="cliente" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modelo">Modelo</label>
+                        <input type="text" id="modelo" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dificuldade">Nível de Dificuldade</label>
+                        <select id="dificuldade" class="form-control" required>
+                            <option value="">Selecione...</option>
+                            <option value="1">Nível 1 (+5%)</option>
+                            <option value="2">Nível 2 (+8%)</option>
+                            <option value="3">Nível 3 (+15%)</option>
+                            <option value="4">Nível 4 (+25%)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantidade">Quantidade de Pontos</label>
+                            <input type="number" id="quantidade" class="form-control" min="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="valorPonto">Valor do Ponto (R$)</label>
+                            <input type="text" id="valorPonto" class="form-control" value="0,00104344" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <h3>Resultado do Orçamento</h3>
+                        <div class="result-item">
+                            <span>Valor Base:</span>
+                            <span id="valorBase">R$ 0,00</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Acréscimo por Dificuldade:</span>
+                            <span id="acrescimo">0% (R$ 0,00)</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Valor Total:</span>
+                            <span id="valorTotal">R$ 0,00</span>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="downloadBtn" class="btn-download">
+                        <i class="fas fa-download"></i> Baixar Orçamento
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recibo (para download) -->
+    <div id="receipt" class="receipt">
+        <div class="receipt-header">
+            <h2>Costur Confecções</h2>
+            <p>Sua marca, nossa costura</p>
+            <p>ORÇAMENTO</p>
+        </div>
+        
+        <div class="receipt-details">
+            <div class="receipt-item">
+                <span>Cliente:</span>
+                <span id="receiptCliente"></span>
+            </div>
+            <div class="receipt-item">
+                <span>Modelo:</span>
+                <span id="receiptModelo"></span>
+            </div>
+            <div class="receipt-item">
+                <span>Nível de Dificuldade:</span>
+                <span id="receiptDificuldade"></span>
+            </div>
+            <div class="receipt-item">
+                <span>Quantidade de Pontos:</span>
+                <span id="receiptQuantidade"></span>
+            </div>
+            <div class="receipt-item">
+                <span>Valor do Ponto:</span>
+                <span id="receiptValorPonto"></span>
+            </div>
+            <div class="receipt-item">
+                <span>Valor Base:</span>
+                <span id="receiptValorBase"></span>
+            </div>
+            <div class="receipt-item">
+                <span>Acréscimo por Dificuldade:</span>
+                <span id="receiptAcrescimo"></span>
+            </div>
+        </div>
+        
+        <div class="receipt-total">
+            <div class="receipt-item">
+                <span>VALOR TOTAL:</span>
+                <span id="receiptValorTotal"></span>
+            </div>
+        </div>
+        
+        <div class="receipt-footer">
+            <p>Emitido em: <span id="receiptData"></span></p>
+            <p>Costur Confecções - (81) 9.2140-5569 / (81) 9.9201-4171</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Costur Confecções</h3>
+                    <p>Sua marca, nossa costura. Damos vida às suas criações com qualidade, dedicação e acabamento impecável.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/costurconfeccoes" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <a href="index.html">Página Inicial</a>
+                    <a href="#budget">Orçamento</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Rua professor ferrucio, 436, São francisco - Caruaru/PE</p>
+                    <p><i class="fas fa-phone"></i> (81) 9.2140-5569</p>
+                    <p><i class="fas fa-phone"></i> (81) 9.9201-4171</p>
+                    <p><i class="fas fa-envelope"></i> costurconfeccoes@gmail.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>Costur Confecções © 2023 - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        // Elementos do formulário
+        const form = document.getElementById('budgetForm');
+        const clienteInput = document.getElementById('cliente');
+        const modeloInput = document.getElementById('modelo');
+        const dificuldadeSelect = document.getElementById('dificuldade');
+        const quantidadeInput = document.getElementById('quantidade');
+        const valorPontoInput = document.getElementById('valorPonto');
+        const valorBaseSpan = document.getElementById('valorBase');
+        const acrescimoSpan = document.getElementById('acrescimo');
+        const valorTotalSpan = document.getElementById('valorTotal');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Elementos do recibo
+        const receipt = document.getElementById('receipt');
+        const receiptCliente = document.getElementById('receiptCliente');
+        const receiptModelo = document.getElementById('receiptModelo');
+        const receiptDificuldade = document.getElementById('receiptDificuldade');
+        const receiptQuantidade = document.getElementById('receiptQuantidade');
+        const receiptValorPonto = document.getElementById('receiptValorPonto');
+        const receiptValorBase = document.getElementById('receiptValorBase');
+        const receiptAcrescimo = document.getElementById('receiptAcrescimo');
+        const receiptValorTotal = document.getElementById('receiptValorTotal');
+        const receiptData = document.getElementById('receiptData');
+
+        // Valor fixo do ponto (convertido para formato numérico)
+        const VALOR_PONTO_FIXO = 0.00104344;
+
+        // Função para calcular o orçamento
+        function calcularOrcamento() {
+            const quantidade = parseFloat(quantidadeInput.value) || 0;
+            const nivelDificuldade = parseInt(dificuldadeSelect.value) || 0;
+            
+            // Calcular valor base usando o valor fixo do ponto
+            const valorBase = quantidade * VALOR_PONTO_FIXO;
+            
+            // Calcular acréscimo baseado no nível de dificuldade
+            let percentualAcrescimo = 0;
+            switch(nivelDificuldade) {
+                case 1:
+                    percentualAcrescimo = 0.05;
+                    break;
+                case 2:
+                    percentualAcrescimo = 0.08;
+                    break;
+                case 3:
+                    percentualAcrescimo = 0.15;
+                    break;
+                case 4:
+                    percentualAcrescimo = 0.25;
+                    break;
+                default:
+                    percentualAcrescimo = 0;
+            }
+            
+            const valorAcrescimo = valorBase * percentualAcrescimo;
+            const valorTotal = valorBase + valorAcrescimo;
+            
+            // Atualizar a interface
+            valorBaseSpan.textContent = `R$ ${valorBase.toFixed(2).replace('.', ',')}`;
+            acrescimoSpan.textContent = `${(percentualAcrescimo * 100).toFixed(0)}% (R$ ${valorAcrescimo.toFixed(2).replace('.', ',')})`;
+            valorTotalSpan.textContent = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Adicionar event listeners para atualizar o cálculo
+        quantidadeInput.addEventListener('input', calcularOrcamento);
+        dificuldadeSelect.addEventListener('change', calcularOrcamento);
+
+        // Função para formatar data
+        function formatarData(data) {
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            const horas = String(data.getHours()).padStart(2, '0');
+            const minutos = String(data.getMinutes()).padStart(2, '0');
+            
+            return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+        }
+
+        // Função para gerar o recibo
+        function gerarRecibo() {
+            const cliente = clienteInput.value;
+            const modelo = modeloInput.value;
+            const quantidade = parseFloat(quantidadeInput.value) || 0;
+            const nivelDificuldade = parseInt(dificuldadeSelect.value) || 0;
+            
+            // Calcular valores usando o valor fixo do ponto
+            const valorBase = quantidade * VALOR_PONTO_FIXO;
+            let percentualAcrescimo = 0;
+            let nivelTexto = '';
+            
+            switch(nivelDificuldade) {
+                case 1:
+                    percentualAcrescimo = 0.05;
+                    nivelTexto = 'Nível 1 (+5%)';
+                    break;
+                case 2:
+                    percentualAcrescimo = 0.08;
+                    nivelTexto = 'Nível 2 (+8%)';
+                    break;
+                case 3:
+                    percentualAcrescimo = 0.15;
+                    nivelTexto = 'Nível 3 (+15%)';
+                    break;
+                case 4:
+                    percentualAcrescimo = 0.25;
+                    nivelTexto = 'Nível 4 (+25%)';
+                    break;
+                default:
+                    percentualAcrescimo = 0;
+                    nivelTexto = 'Não definido';
+            }
+            
+            const valorAcrescimo = valorBase * percentualAcrescimo;
+            const valorTotal = valorBase + valorAcrescimo;
+            
+            // Preencher o recibo
+            receiptCliente.textContent = cliente;
+            receiptModelo.textContent = modelo;
+            receiptDificuldade.textContent = nivelTexto;
+            receiptQuantidade.textContent = quantidade.toLocaleString('pt-BR');
+            receiptValorPonto.textContent = `R$ ${VALOR_PONTO_FIXO.toFixed(8).replace('.', ',')}`;
+            receiptValorBase.textContent = `R$ ${valorBase.toFixed(2).replace('.', ',')}`;
+            receiptAcrescimo.textContent = `${(percentualAcrescimo * 100).toFixed(0)}% (R$ ${valorAcrescimo.toFixed(2).replace('.', ',')})`;
+            receiptValorTotal.textContent = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+            
+            const dataAtual = new Date();
+            receiptData.textContent = formatarData(dataAtual);
+            
+            return {
+                cliente,
+                modelo,
+                quantidade,
+                valorPonto: VALOR_PONTO_FIXO,
+                nivelDificuldade,
+                valorBase,
+                valorAcrescimo,
+                valorTotal,
+                data: dataAtual
+            };
+        }
+
+        // Função para baixar o orçamento como PNG
+        downloadBtn.addEventListener('click', function() {
+            // Validar formulário
+            if (!clienteInput.value || !modeloInput.value || !dificuldadeSelect.value || !quantidadeInput.value) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Gerar dados do recibo
+            const dadosOrcamento = gerarRecibo();
+            
+            // Mostrar o recibo temporariamente
+            receipt.style.display = 'block';
+            
+            // Usar html2canvas para converter o recibo em imagem
+            html2canvas(receipt, {
+                scale: 2, // Aumenta a qualidade da imagem
+                useCORS: true,
+                logging: false
+            }).then(function(canvas) {
+                // Criar link para download
+                const link = document.createElement('a');
+                const nomeArquivo = `${dadosOrcamento.cliente.toLowerCase().replace(/\s+/g, '_')}_${dadosOrcamento.data.getFullYear()}${String(dadosOrcamento.data.getMonth()+1).padStart(2, '0')}${String(dadosOrcamento.data.getDate()).padStart(2, '0')}_orcamento.png`;
+                
+                link.download = nomeArquivo;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Esconder o recibo novamente
+                receipt.style.display = 'none';
+            });
+        });
+
+        // Inicializar o cálculo
+        calcularOrcamento();
+    </script>
+</body>
+</html>
